@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Davo | Анкета чекапа</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #5B3E9E;
+    --accent-light: #EDE8FA;
+    --accent-mid: #7C5DC7;
+    --white: #ffffff;
+    --bg: #F4F2F9;
+    --card: #ffffff;
+    --border: #E2DCF5;
+    --text: #1a1a2e;
+    --text-secondary: #5c5c7a;
+    --text-hint: #9090aa;
+    --danger: #d32f2f;
+    --success: #2e7d52;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { font-size: 16px; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  .form-header {
+    background: linear-gradient(135deg, #5B3E9E 0%, #7C5DC7 100%);
+    padding: 28px 24px 22px;
+    color: white;
+  }
+  .form-header .logo {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 10px;
+  }
+  .form-header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .form-header p {
+    font-size: 13px;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: rgba(255,255,255,0.2);
+    height: 4px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: #fff;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .step-label {
+    background: var(--white);
+    padding: 10px 24px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .step-label span { font-weight: 600; color: var(--accent); }
+
+  /* CONTAINER */
+  .container { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+  /* PAGES */
+  .page { display: none; padding-top: 20px; }
+  .page.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-card {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+  .section-card .section-num {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-mid);
+    margin-bottom: 2px;
+  }
+  .section-card .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-mid);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .q-text .req { color: var(--danger); margin-left: 2px; }
+  .q-hint {
+    font-size: 12px;
+    color: var(--text-hint);
+    font-style: italic;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  /* RADIO / CHECKBOX */
+  .opt-list { display: flex; flex-direction: column; gap: 6px; }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .opt:hover { border-color: var(--accent); background: var(--accent-light); }
+  .opt input[type=radio], .opt input[type=checkbox] {
+    accent-color: var(--accent);
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+  }
+  .opt.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* TEXT INPUT */
+  .input-field {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    background: transparent;
+    font-size: 14px;
+    color: var(--text);
+    padding: 8px 2px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.15s;
+  }
+  .input-field:focus { border-bottom-color: var(--accent); }
+  .input-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .input-row {
+    display: grid;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .input-row.col2 { grid-template-columns: 1fr 1fr; }
+  .input-row.col3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* SUB-QUESTION */
+  .sub-q {
+    background: #F8F6FD;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-top: 12px;
+    display: none;
+  }
+  .sub-q.show { display: block; }
+  .sub-q .q-text { font-size: 13px; margin-bottom: 10px; }
+
+  /* DISEASE TABLE */
+  .disease-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .disease-table thead tr { border-bottom: 2px solid var(--border); }
+  .disease-table th {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 6px 4px;
+  }
+  .disease-table th:first-child { text-align: left; }
+  .disease-table tbody tr { border-bottom: 1px solid var(--border); }
+  .disease-table tbody tr:last-child { border-bottom: none; }
+  .disease-table td {
+    padding: 10px 4px;
+    vertical-align: middle;
+    text-align: center;
+    color: var(--text);
+  }
+  .disease-table td:first-child { text-align: left; font-size: 13px; padding-left: 0; }
+  .disease-table input[type=radio] { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
+
+  .diag-header {
+    background: #EDE8FA;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: center;
+    padding: 3px 4px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+
+  /* ALCOHOL TABLE */
+  .alc-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  .alc-table th {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 6px 4px;
+    border-bottom: 2px solid var(--border);
+  }
+  .alc-table th:first-child { text-align: left; }
+  .alc-table td {
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+  }
+  .alc-table tr:last-child td { border-bottom: none; }
+  .alc-table td:first-child { text-align: left; font-weight: 500; }
+  .alc-table input[type=number] {
+    width: 60px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 4px;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+  }
+  .alc-table input[type=number]:focus { border-color: var(--accent); background: var(--white); }
+
+  /* LANGUAGE BUTTONS */
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.15s;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+  }
+  .lang-btn:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .lang-btn .flag { font-size: 28px; }
+  .lang-btn .lang-name { font-size: 16px; font-weight: 600; }
+  .lang-btn .lang-sub { font-size: 12px; color: var(--text-hint); font-weight: 400; }
+
+  /* NAVIGATION */
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 0;
+    gap: 10px;
+  }
+  .btn-next {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 13px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.15s;
+    flex: 1;
+  }
+  .btn-next:hover { background: var(--accent-mid); }
+  .btn-back {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-back:hover { border-color: var(--accent); background: var(--accent-light); }
+
+  /* DONE PAGE */
+  .done-wrap {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .done-icon {
+    width: 72px; height: 72px;
+    background: #E8F5EE;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+  .done-wrap h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .done-wrap p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* FREQUENCY INLINE */
+  .freq-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 6px;
+    transition: all 0.15s;
+  }
+  .freq-row:hover { border-color: var(--accent); background: var(--accent-light); }
+  .freq-row input[type=radio] { accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; }
+  .freq-row .freq-input {
+    width: 50px;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    background: transparent;
+    font-size: 14px;
+    text-align: center;
+    outline: none;
+    padding: 0 2px;
+  }
+  .freq-row .freq-input:focus { border-bottom-color: var(--accent); }
+
+  @media (max-width: 480px) {
+    .form-header { padding: 20px 16px 18px; }
+    .form-header h1 { font-size: 18px; }
+    .container { padding: 0 12px; }
+    .disease-table { font-size: 12px; }
+    .disease-table td:first-child { font-size: 12px; max-width: 120px; }
+    .input-row.col3 { grid-template-columns: 1fr 1fr; }
+    .alc-table input[type=number] { width: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="form-header">
+  <div class="logo">K-Davo Korean Medical Center</div>
+  <h1 id="h-title">Анкета чекапа</h1>
+  <p id="h-desc">Результаты оценки риска к сердечно-сосудистым заболеваниям вы получите только при заполнении всех пунктов анкеты.</p>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
+<div class="step-label">
+  <span id="step-label-text">Выберите язык</span>
+  <span id="step-counter"></span>
+</div>
+
+<div class="container">
+
+<!-- PAGE 0: Язык -->
+<div class="page active" id="p0">
+  <div style="padding-top:24px">
+    <div class="q-card">
+      <div class="q-text" id="q-lang-prompt" style="margin-bottom:16px">Выберите язык / Tilni tanlang / Choose language / 언어 선택 <span class="req">*</span></div>
+      <button class="lang-btn" onclick="setLang('ru')">
+        <span class="flag">🇷🇺</span>
+        <div><div class="lang-name">Русский язык</div></div>
+      </button>
+      <button class="lang-btn" onclick="setLang('uz')">
+        <span class="flag">🇺🇿</span>
+        <div><div class="lang-name">O'zbek tili</div></div>
+      </button>
+      <button class="lang-btn" onclick="setLang('en')">
+        <span class="flag">🇬🇧</span>
+        <div><div class="lang-name">English</div></div>
+      </button>
+      <button class="lang-btn" onclick="setLang('ko')">
+        <span class="flag">🇰🇷</span>
+        <div><div class="lang-name">한국어</div></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 1: Личные данные -->
+<div class="page" id="p1">
+  <div class="section-card">
+    <div class="section-num" id="s1-num">Раздел A</div>
+    <div class="section-title" id="s1-title">Личные данные</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-text" id="q-fio">ФИО <span class="req">*</span></div>
+    <input class="input-field" type="text" id="i-fio" id="i-fio-placeholder" placeholder="Фамилия Имя Отчество">
+  </div>
+  <div class="q-card">
+    <div class="q-text" id="q-phone">Телефон <span class="req">*</span></div>
+    <div class="input-row col2">
+      <div>
+        <label class="input-label" id="l-mobile">Основной номер</label>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px;color:var(--text-secondary);font-weight:500;white-space:nowrap">+998</span>
+          <input class="input-field" type="tel" id="i-mobile" placeholder="90 123 45 67">
+        </div>
+      </div>
+      <div>
+        <label class="input-label" id="l-home">Запасной номер</label>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px;color:var(--text-secondary);font-weight:500;white-space:nowrap">+998</span>
+          <input class="input-field" type="tel" id="i-home" placeholder="90 123 45 67">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="nav-row">
+    <button class="btn-next" onclick="goTo(2)" id="btn-next-1">Далее →</button>
+  </div>
+</div>
+
+<!-- PAGE 2: Анамнез -->
+<div class="page" id="p2">
+  <div class="section-card">
+    <div class="section-num" id="s2-num">Блок 1</div>
+    <div class="section-title" id="s2-title">Данные о заболеваниях, семейный анамнез</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Вопрос 1</div>
+    <div class="q-text" id="q-diseases">Были ли диагностированы следующие заболевания и проводится ли их лечение? <span class="req">*</span></div>
+    <div style="overflow-x:auto">
+    <table class="disease-table" id="disease-table">
+      <thead>
+        <tr>
+          <th id="dh-name" style="min-width:140px">Заболевание</th>
+          <th colspan="2"><div class="diag-header" id="dh-diag">Диагноз</div></th>
+          <th colspan="2"><div class="diag-header" id="dh-treat">Лечение</div></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="dh-yes1">Да</th><th id="dh-no1">Нет</th>
+          <th id="dh-yes2">Да</th><th id="dh-no2">Нет</th>
+        </tr>
+      </thead>
+      <tbody id="disease-tbody"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Вопрос 2</div>
+    <div class="q-text" id="q-family">Были ли среди членов вашей семьи случаи следующих заболеваний? <span class="req">*</span></div>
+    <div style="overflow-x:auto">
+    <table class="disease-table" id="family-table">
+      <thead>
+        <tr>
+          <th id="fh-name" style="min-width:160px">Заболевание</th>
+          <th id="fh-yes">Да</th>
+          <th id="fh-no">Нет</th>
+        </tr>
+      </thead>
+      <tbody id="family-tbody"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Вопрос 3</div>
+    <div class="q-text" id="q-hepb">Являетесь ли вы носителем вируса гепатита В? <span class="req">*</span></div>
+    <div class="opt-list" id="rg-hepb"></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="goTo(1)" id="btn-back-2">← Назад</button>
+    <button class="btn-next" onclick="goTo(3)" id="btn-next-2">Далее →</button>
+  </div>
+</div>
+
+<!-- PAGE 3: Курение -->
+<div class="page" id="p3">
+  <div class="section-card">
+    <div class="section-num" id="s3-num">Блок 2</div>
+    <div class="section-title" id="s3-title">Курение и электронные сигареты</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-text" id="q-smoke-ever">Курили ли вы когда-либо (сигареты, электронные сигареты, вейп)? <span class="req">*</span></div>
+    <div class="opt-list" id="rg-smoke-ever"></div>
+  </div>
+
+  <div id="smoke-details" style="display:none">
+    <div class="q-card">
+      <div class="q-text" id="q-cig">Обычные сигареты (более 5 пачек / 100 штук за всю жизнь)? <span class="req">*</span></div>
+      <div class="opt-list" id="rg-cig"></div>
+      <div class="sub-q" id="sub-cig">
+        <div class="q-text" id="q-cig-detail">Уточните детали:</div>
+        <div class="opt-list" id="rg-cig-status"></div>
+        <div class="input-row col3" style="margin-top:12px">
+          <div><label class="input-label" id="l-cig-years">Лет курил(а)</label><input class="input-field" type="number" min="0" max="80" id="i-cig-years"></div>
+          <div><label class="input-label" id="l-cig-perday">Сигарет в день</label><input class="input-field" type="number" min="0" max="100" id="i-cig-perday"></div>
+          <div><label class="input-label" id="l-cig-ago">Лет назад бросил(а)</label><input class="input-field" type="number" min="0" max="80" id="i-cig-ago"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-text" id="q-ecig">Электронные сигареты нагревающего типа (IQOS, Glo, Lil и др.)? <span class="req">*</span></div>
+      <div class="opt-list" id="rg-ecig"></div>
+      <div class="sub-q" id="sub-ecig">
+        <div class="q-text" id="q-ecig-detail">Уточните детали:</div>
+        <div class="opt-list" id="rg-ecig-status"></div>
+        <div class="input-row col3" style="margin-top:12px">
+          <div><label class="input-label" id="l-ecig-years">Лет использовал(а)</label><input class="input-field" type="number" min="0" max="80" id="i-ecig-years"></div>
+          <div><label class="input-label" id="l-ecig-perday">В день</label><input class="input-field" type="number" min="0" max="100" id="i-ecig-perday"></div>
+          <div><label class="input-label" id="l-ecig-ago">Лет назад бросил(а)</label><input class="input-field" type="number" min="0" max="80" id="i-ecig-ago"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-text" id="q-vape">Жидкие электронные сигареты (вейп)? <span class="req">*</span></div>
+      <div class="opt-list" id="rg-vape"></div>
+      <div class="sub-q" id="sub-vape">
+        <div class="q-text" id="q-vape-freq-label">Как часто за последний месяц?</div>
+        <div class="opt-list" id="rg-vape-freq"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="goTo(2)" id="btn-back-3">← Назад</button>
+    <button class="btn-next" onclick="goTo(4)" id="btn-next-3">Далее →</button>
+  </div>
+</div>
+
+<!-- PAGE 4: Алкоголь -->
+<div class="page" id="p4">
+  <div class="section-card">
+    <div class="section-num" id="s4-num">Блок 3</div>
+    <div class="section-title" id="s4-title">Употребление алкоголя</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-text" id="q-alc-ever">Употребляете ли вы алкоголь? <span class="req">*</span></div>
+    <div class="opt-list" id="rg-alc-ever"></div>
+  </div>
+
+  <div id="alc-details" style="display:none">
+    <div class="q-card">
+      <div class="q-text" id="q-alc-freq">Как часто вы употребляете алкоголь? (за прошедший год) <span class="req">*</span></div>
+      <div id="alc-freq-list"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-text" id="q-alc-usual">Сколько алкоголя вы обычно выпиваете в день? <span class="req">*</span></div>
+      <div class="q-hint" id="h-alc">Выберите одну единицу измерения. Оставьте пустым если не употребляете.</div>
+      <div style="overflow-x:auto"><table class="alc-table" id="alc-usual"></table></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-text" id="q-alc-max">Какое максимальное количество алкоголя вы выпивали за день? <span class="req">*</span></div>
+      <div class="q-hint" id="h-alc2">Выберите одну единицу измерения.</div>
+      <div style="overflow-x:auto"><table class="alc-table" id="alc-max"></table></div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="goTo(3)" id="btn-back-4">← Назад</button>
+    <button class="btn-next" onclick="goTo(5)" id="btn-next-4">Далее →</button>
+  </div>
+</div>
+
+<!-- PAGE 5: Физнагрузки -->
+<div class="page" id="p5">
+  <div class="section-card">
+    <div class="section-num" id="s5-num">Блок 4</div>
+    <div class="section-title" id="s5-title">Физические нагрузки</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-text" id="q-ex-ever">Занимаетесь ли вы какой-либо физической активностью? <span class="req">*</span></div>
+    <div class="opt-list" id="rg-ex-ever"></div>
+  </div>
+
+  <div id="ex-details" style="display:none">
+    <div class="q-card">
+      <div class="q-text" id="q-ex81">Высокоинтенсивные упражнения (сбивается дыхание) — дней в неделю? <span class="req">*</span></div>
+      <div class="q-hint" id="h-ex81">Примеры: бег, аэробика, быстрая езда на велосипеде, тяжёлый физический труд</div>
+      <div class="input-row col2">
+        <div><label class="input-label" id="l-days-w">Дней в неделю</label><input class="input-field" type="number" min="0" max="7" id="i-ex81"></div>
+        <div><label class="input-label" id="l-h1">Часов / </label><input class="input-field" type="number" min="0" max="24" id="i-ex82h"></div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-text" id="q-ex91">Умеренные упражнения (слегка сбивается дыхание) — дней в неделю? <span class="req">*</span></div>
+      <div class="q-hint" id="h-ex91">Примеры: спортивная ходьба, теннис, езда на велосипеде со средней скоростью</div>
+      <div class="input-row col2">
+        <div><label class="input-label" id="l-days-w2">Дней в неделю</label><input class="input-field" type="number" min="0" max="7" id="i-ex91"></div>
+        <div><label class="input-label" id="l-h2">Часов / </label><input class="input-field" type="number" min="0" max="24" id="i-ex92h"></div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-text" id="q-ex10">Силовые тренировки — дней за прошлую неделю? <span class="req">*</span></div>
+      <div class="q-hint" id="h-ex10">Отжимания, гантели, турник, упражнения с отягощениями</div>
+      <div class="input-row" style="grid-template-columns:160px 1fr">
+        <div><label class="input-label" id="l-days-w3">Дней</label><input class="input-field" type="number" min="0" max="7" id="i-ex10"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-back" onclick="goTo(4)" id="btn-back-5">← Назад</button>
+    <button class="btn-next" onclick="submitForm()" id="btn-submit">Отправить анкету ✓</button>
+  </div>
+</div>
+
+<!-- PAGE 6: Готово -->
+<div class="page" id="p6">
+  <div class="done-wrap">
+    <div class="done-icon">✓</div>
+    <h2 id="done-title">Анкета отправлена!</h2>
+    <p id="done-msg">Спасибо! Ваши ответы получены. Результаты будут готовы после медицинского осмотра.</p>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+const LANG = {
+  ru: {
+    hTitle: "Анкета чекапа",
+    hDesc: "Результаты оценки риска к сердечно-сосудистым заболеваниям вы получите только при заполнении всех пунктов анкеты.",
+    stepLabels: ["Выберите язык","Личные данные","Анамнез","Курение","Алкоголь","Физнагрузки"],
+    s1: ["Раздел A","Личные данные"],
+    s2: ["Блок 1","Данные о заболеваниях, семейный анамнез"],
+    s3: ["Блок 2","Курение и электронные сигареты"],
+    s4: ["Блок 3","Употребление алкоголя"],
+    s5: ["Блок 4","Физические нагрузки"],
+    qFio:"ФИО",
+    qPhone:"Телефон", lMobile:"Основной номер", lHome:"Запасной номер",
+    qEmail:"E-mail",
+    dhDiag:"Диагноз", dhTreat:"Лечение",
+    dhYes:"Да", dhNo:"Нет",
+    qDiseases:"Были ли диагностированы следующие заболевания и проводится ли их лечение?",
+    diseases:["Цереброваскулярные заболевания (инсульт)","Заболевания сердца (инфаркт/стенокардия)","Гипертония","Сахарный диабет","Дислипидемия","Туберкулёз","Прочие (вкл. онкологические)"],
+    qFamily:"Были ли среди членов вашей семьи (родители, братья, сёстры) случаи следующих заболеваний?",
+    famDiseases:["Инсульт (апоплексия)","Заболевания сердца (инфаркт/стенокардия)","Гипертония","Сахарный диабет","Прочие (вкл. онкологические)"],
+    qHepb:"Являетесь ли вы носителем вируса гепатита В?",
+    hepbOpts:["Да","Нет","Не знаю"],
+    yesNo:["Да","Нет"],
+    qSmokeEver:"Курили ли вы когда-либо (сигареты, электронные сигареты, вейп)?",
+    qAlcEver:"Употребляли ли вы когда-либо алкоголь?",
+    qExEver:"Занимаетесь ли вы какой-либо физической активностью?",
+    qCig:"Выкуривали ли вы за всю жизнь более 5 пачек (100 сигарет) обычных сигарет?",
+    cigOpts:["Нет","Да, но сейчас не курю","Да, курю сейчас"],
+    qCigDetail:"Уточните детали курения:",
+    cigStatus:["Курю в настоящее время","Курил(а) в прошлом, не курю сейчас"],
+    lCigYears:"Лет курил(а)", lCigPerday:"Сигарет в день", lCigAgo:"Лет назад бросил(а)",
+    qEcig:"Курили ли вы электронные сигареты нагревающего типа (IQOS, Glo, Lil и др.)?",
+    ecigOpts:["Нет","Да, но сейчас не курю","Да, курю сейчас"],
+    qEcigDetail:"Уточните детали:", ecigStatus:["Курю сейчас","Курил(а) раньше"],
+    lEcigYears:"Лет использовал(а)", lEcigPerday:"В день", lEcigAgo:"Лет назад бросил(а)",
+    qVape:"Употребляли ли вы жидкие электронные сигареты (вейп)?",
+    vapeOpts:["Нет","Да"],
+    qVapeFreqLabel:"Как часто за последний месяц?",
+    vapeFreq:["Нет","1–2 дня в месяц","3–9 дней в месяц","10–29 дней в месяц","Каждый день"],
+    qAlcFreq:"Как часто вы употребляете алкоголь? (за прошедший год)",
+    alcFreqItems:[["раз в неделю","week"],["раз в месяц","month"],["раз в год","year"],["Не пью алкоголь","none"]],
+    qAlcUsual:"Сколько алкоголя вы обычно выпиваете в день?",
+    hAlc:"Выберите одну единицу измерения. Оставьте пустым если не употребляете.",
+    qAlcMax:"Какое максимальное количество алкоголя вы выпивали за день?",
+    hAlc2:"Выберите одну единицу измерения для каждого напитка.",
+    alcDrinks:["Водка","Пиво","Коньяк","Вино"],
+    alcUnits:["Бокал","Бутылка","Банка","мл"],
+    qEx81:"Как часто вы выполняете высокоинтенсивные упражнения (сбивается дыхание) в неделю?",
+    hEx81:"Примеры: бег, аэробика, быстрая езда на велосипеде, тяжёлый физический труд",
+    qEx82:"Сколько времени в день вы выполняете высокоинтенсивные упражнения?",
+    qEx91:"Как часто упражнения умеренной интенсивности (слегка сбивается дыхание) в неделю?",
+    hEx91:"Примеры: спортивная ходьба, теннис, езда на велосипеде со средней скоростью, уборка",
+    qEx92:"Сколько времени в день вы выполняете умеренные упражнения?",
+    qEx10:"Сколько дней за прошедшую неделю вы делали силовые тренировки?",
+    hEx10:"Отжимания, гантели, турник, упражнения с отягощениями",
+    lDaysW:"Дней в неделю", lH:"Часов", lM:"Минут",
+    btnNext:"Далее →", btnBack:"← Назад", btnSubmit:"Отправить анкету ✓",
+    doneTitle:"Анкета отправлена!", doneMsg:"Спасибо! Ваши ответы получены. Результаты будут готовы после медицинского осмотра."
+  },
+  uz: {
+    hTitle: "Chek-ap anketa",
+    hDesc: "Yurak-qon tomir kasalliklari xavfini baholash natijalarini olish uchun anketaning barcha bandlarini to'ldiring.",
+    stepLabels: ["Tilni tanlang","Shaxsiy ma'lumotlar","Kasalliklar tarixi","Chekish","Alkogol","Jismoniy faollik"],
+    s1: ["A bo'lim","Shaxsiy ma'lumotlar"],
+    s2: ["1-blok","Kasalliklar va oilaviy tarix"],
+    s3: ["2-blok","Chekish va elektron sigaretlar"],
+    s4: ["3-blok","Alkogol iste'moli"],
+    s5: ["4-blok","Jismoniy faollik"],
+    qFio:"F.I.Sh.",
+    qPhone:"Telefon", lMobile:"Asosiy raqam", lHome:"Zaxira raqam",
+    qEmail:"E-mail",
+    dhDiag:"Tashxis", dhTreat:"Davolanish",
+    dhYes:"Ha", dhNo:"Yo'q",
+    qDiseases:"Quyidagi kasalliklar tashxislangan va davolanish olib borilganmi?",
+    diseases:["Serebrovaskular kasalliklar (insult)","Yurak kasalliklari (infarkt/stenokardiya)","Gipertoniya","Qandli diabet","Dislipidemiya","Sil kasalligi","Boshqalar (onkologik kasalliklar)"],
+    qFamily:"Ota-ona, aka-uka/opa-singillaringizda quyidagi kasalliklar bo'lganmi?",
+    famDiseases:["Insult (miya qon aylanishi buzilishi)","Yurak kasalliklari (infarkt/stenokardiya)","Gipertoniya","Qandli diabet","Boshqalar (onkologik)"],
+    qHepb:"Siz B gepatit virusi tashuvchisimisiz?",
+    hepbOpts:["Ha","Yo'q","Bilmayman"],
+    yesNo:["Ha","Yo'q"],
+    qSmokeEver:"Hayotingizda chekkanmisiz (sigaret, elektron sigaret, veyp)?",
+    qAlcEver:"Hayotingizda alkogol ichganmisiz?",
+    qExEver:"Jismoniy faollik bilan shug'ullanasizmi?",
+    qCig:"Umringizda 5 paketdan ko'p (100 ta) oddiy sigaret chekkanmisiz?",
+    cigOpts:["Yo'q","Ha, lekin hozir chekmayman","Ha, hozir chekaman"],
+    qCigDetail:"Tafsilotlarni ko'rsating:",
+    cigStatus:["Hozir chekaman","Ilgari chekkaman, hozir yo'q"],
+    lCigYears:"Necha yil chekkansiz", lCigPerday:"Kuniga nechta", lCigAgo:"Necha yil oldin tashladim",
+    qEcig:"Qizituvchi turdagi elektron sigaret (IQOS, Glo, Lil va boshqalar) chekkansizmi?",
+    ecigOpts:["Yo'q","Ha, lekin hozir chekmayman","Ha, hozir chekaman"],
+    qEcigDetail:"Tafsilotlar:", ecigStatus:["Hozir chekaman","Ilgari chekkaman"],
+    lEcigYears:"Necha yil chekkansiz", lEcigPerday:"Kuniga", lEcigAgo:"Necha yil oldin tashladim",
+    qVape:"Suyuq elektron sigaret (veyp) chekkansizmi?",
+    vapeOpts:["Yo'q","Ha"],
+    qVapeFreqLabel:"O'tgan oyda qanchalik tez-tez?",
+    vapeFreq:["Yo'q","Oyda 1–2 kun","Oyda 3–9 kun","Oyda 10–29 kun","Har kuni"],
+    qAlcFreq:"O'tgan yil davomida qanchalik tez-tez alkogol ichgansiz?",
+    alcFreqItems:[["marta haftada","week"],["marta oyda","month"],["marta yilda","year"],["Alkogol ichmayman","none"]],
+    qAlcUsual:"Odatda bir kunda qancha alkogol ichasiz?",
+    hAlc:"Faqat bitta o'lchov birligini tanlang. Bo'sh qoldiring — agar ichmasangiz.",
+    qAlcMax:"Bir kunda ichgan maksimal alkogol miqdori?",
+    hAlc2:"Har bir ichimlik uchun miqdorni ko'rsating.",
+    alcDrinks:["Aroq","Pivo","Konyak","Vino"],
+    alcUnits:["Piyola","Shisha","Banka","ml"],
+    qEx81:"Haftada necha kun yuqori intensivlikdagi mashqlar qilasiz (nafas qisadi)?",
+    hEx81:"Misol: yugurish, aerobika, tez velosiped haydash, og'ir jismoniy ish",
+    qEx82:"Kuniga yuqori intensivlikdagi mashqlarni qancha vaqt qilasiz?",
+    qEx91:"Haftada necha kun o'rtacha intensivlikdagi mashqlar qilasiz?",
+    hEx91:"Misol: sport yurishi, tennis, o'rtacha tezlikda velosiped haydash, uy yig'ishtirish",
+    qEx92:"Kuniga o'rtacha intensivlikdagi mashqlarni qancha vaqt qilasiz?",
+    qEx10:"O'tgan haftada necha kun kuch mashqlari qildingiz?",
+    hEx10:"Qo'l tirash, zo'riqish mashqlari, turnik va shu kabilar",
+    lDaysW:"Kun/hafta", lH:"Soat", lM:"Daqiqa",
+    btnNext:"Keyingisi →", btnBack:"← Orqaga", btnSubmit:"Anketani yuborish ✓",
+    doneTitle:"Anketa yuborildi!", doneMsg:"Rahmat! Javoblaringiz qabul qilindi. Natijalar ko'rikdan so'ng tayyor bo'ladi."
+  },
+  en: {
+    hTitle: "Health Check-up Questionnaire",
+    hDesc: "You can only receive cardiovascular risk assessment results by completing all sections of this questionnaire.",
+    stepLabels: ["Choose language","Personal info","Medical history","Smoking","Alcohol","Physical activity"],
+    s1: ["Section A","Personal information"],
+    s2: ["Block 1","Medical history & family history"],
+    s3: ["Block 2","Smoking & e-cigarettes"],
+    s4: ["Block 3","Alcohol consumption"],
+    s5: ["Block 4","Physical activity"],
+    qFio:"Full name",
+    qPhone:"Phone", lMobile:"Primary number", lHome:"Secondary number",
+    qEmail:"E-mail",
+    dhDiag:"Diagnosis", dhTreat:"Treatment",
+    dhYes:"Yes", dhNo:"No",
+    qDiseases:"Have the following diseases been diagnosed, and are they being treated?",
+    diseases:["Cerebrovascular disease (stroke)","Heart disease (infarction/angina)","Hypertension","Diabetes mellitus","Dyslipidemia","Tuberculosis","Others (incl. oncological)"],
+    qFamily:"Have your parents or siblings been ill or died from the following diseases?",
+    famDiseases:["Stroke (apoplexy)","Heart disease (infarction/angina)","Hypertension","Diabetes","Others (incl. oncological)"],
+    qHepb:"Are you a carrier of the Hepatitis B virus?",
+    hepbOpts:["Yes","No","Don't know"],
+    yesNo:["Yes","No"],
+    qSmokeEver:"Have you ever smoked (cigarettes, e-cigarettes, vape)?",
+    qAlcEver:"Have you ever consumed alcohol?",
+    qExEver:"Do you engage in any physical activity?",
+    qCig:"Have you smoked more than 5 packs (100 cigarettes) of regular cigarettes in your lifetime?",
+    cigOpts:["No","Yes, but I have quit","Yes, I currently smoke"],
+    qCigDetail:"Please specify details:",
+    cigStatus:["I currently smoke","I smoked before but not now"],
+    lCigYears:"Years smoked", lCigPerday:"Cigarettes/day", lCigAgo:"Years since quitting",
+    qEcig:"Have you used heated tobacco products (IQOS, Glo, Lil, etc.)?",
+    ecigOpts:["No","Yes, but I have quit","Yes, I currently use"],
+    qEcigDetail:"Please specify:", ecigStatus:["Currently using","Used before"],
+    lEcigYears:"Years used", lEcigPerday:"Per day", lEcigAgo:"Years since quitting",
+    qVape:"Have you used liquid e-cigarettes (vape)?",
+    vapeOpts:["No","Yes"],
+    qVapeFreqLabel:"How often in the past month?",
+    vapeFreq:["None","1–2 days/month","3–9 days/month","10–29 days/month","Every day"],
+    qAlcFreq:"How often did you consume alcohol in the past year?",
+    alcFreqItems:[["times per week","week"],["times per month","month"],["times per year","year"],["I don't drink alcohol","none"]],
+    qAlcUsual:"How much alcohol do you usually drink per day?",
+    hAlc:"Choose only one unit of measurement. Leave blank if you don't drink.",
+    qAlcMax:"What is the maximum amount of alcohol you have consumed in one day?",
+    hAlc2:"Choose one unit of measurement for each drink.",
+    alcDrinks:["Vodka","Beer","Cognac","Wine"],
+    alcUnits:["Glass","Bottle","Can","ml"],
+    qEx81:"How many days per week do you do high-intensity exercise (breathing becomes hard)?",
+    hEx81:"Examples: running, aerobics, fast cycling, heavy physical labor",
+    qEx82:"How many hours/minutes per day do you do high-intensity exercise?",
+    qEx91:"How many days per week do you do moderate-intensity exercise?",
+    hEx91:"Examples: brisk walking, doubles tennis, cycling at moderate speed, housework",
+    qEx92:"How many hours/minutes per day do you do moderate-intensity exercise?",
+    qEx10:"How many days in the past week did you do strength training?",
+    hEx10:"Push-ups, sit-ups, dumbbells, pull-ups, resistance exercises",
+    lDaysW:"Days/week", lH:"Hours", lM:"Minutes",
+    btnNext:"Next →", btnBack:"← Back", btnSubmit:"Submit questionnaire ✓",
+    doneTitle:"Questionnaire submitted!", doneMsg:"Thank you! Your responses have been received. Results will be ready after your medical examination."
+  },
+  ko: {
+    hTitle: "건강 검진 설문지",
+    hDesc: "심혈관 질환 위험도 평가 결과를 받으시려면 모든 항목을 작성해 주십시오.",
+    stepLabels: ["언어 선택","개인 정보","병력","흡연","음주","신체 활동"],
+    s1: ["A 섹션","개인 정보"],
+    s2: ["1블록","병력 및 가족력"],
+    s3: ["2블록","흡연 및 전자담배"],
+    s4: ["3블록","음주"],
+    s5: ["4블록","신체 활동"],
+    qFio:"성명",
+    qPhone:"전화번호", lMobile:"주요 번호", lHome:"보조 번호",
+    qEmail:"이메일",
+    dhDiag:"진단", dhTreat:"치료",
+    dhYes:"예", dhNo:"아니오",
+    qDiseases:"다음 질환이 진단된 적이 있으며 치료를 받고 계십니까?",
+    diseases:["뇌혈관 질환 (뇌졸중)","심장 질환 (심근경색/협심증)","고혈압","당뇨병","이상지질혈증","결핵","기타 (암 포함)"],
+    qFamily:"부모님 또는 형제자매 중 다음 질환을 앓으신 분이 계십니까?",
+    famDiseases:["뇌졸중","심장 질환 (심근경색/협심증)","고혈압","당뇨병","기타 (암 포함)"],
+    qHepb:"B형 간염 바이러스 보균자이십니까?",
+    hepbOpts:["예","아니오","모르겠습니다"],
+    yesNo:["예","아니오"],
+    qSmokeEver:"살면서 담배를 피운 적이 있으십니까? (일반 담배, 전자담배, 베이프 포함)",
+    qAlcEver:"살면서 술을 마신 적이 있으십니까?",
+    qExEver:"현재 어떤 신체 활동이라도 하고 계십니까?",
+    qCig:"평생 동안 일반 담배를 5갑 (100개비) 이상 피우신 적이 있으십니까?",
+    cigOpts:["아니오","예, 현재는 금연 중","예, 현재 흡연 중"],
+    qCigDetail:"자세한 내용을 알려주세요:",
+    cigStatus:["현재 흡연 중","과거에 흡연, 현재 금연"],
+    lCigYears:"흡연 기간 (년)", lCigPerday:"하루 흡연량 (개비)", lCigAgo:"금연한 지 (년)",
+    qEcig:"가열식 전자담배 (IQOS, Glo, Lil 등)를 사용한 적이 있으십니까?",
+    ecigOpts:["아니오","예, 현재는 사용 안 함","예, 현재 사용 중"],
+    qEcigDetail:"자세한 내용:", ecigStatus:["현재 사용 중","과거에 사용"],
+    lEcigYears:"사용 기간 (년)", lEcigPerday:"하루 사용량", lEcigAgo:"중단한 지 (년)",
+    qVape:"액상형 전자담배 (베이프)를 사용한 적이 있으십니까?",
+    vapeOpts:["아니오","예"],
+    qVapeFreqLabel:"지난 한 달 동안 얼마나 자주 사용하셨습니까?",
+    vapeFreq:["없음","월 1-2일","월 3-9일","월 10-29일","매일"],
+    qAlcFreq:"지난 1년 동안 음주 빈도는 어떻게 됩니까?",
+    alcFreqItems:[["회/주","week"],["회/월","month"],["회/년","year"],["음주하지 않음","none"]],
+    qAlcUsual:"평소 하루에 마시는 주량은 얼마나 됩니까?",
+    hAlc:"각 주류별로 한 가지 단위만 선택해 주세요. 마시지 않으면 빈칸으로 두세요.",
+    qAlcMax:"하루에 마신 최대 주량은 얼마나 됩니까?",
+    hAlc2:"각 주류별로 한 가지 단위를 선택해 주세요.",
+    alcDrinks:["소주/보드카","맥주","양주/코냑","와인"],
+    alcUnits:["잔","병","캔","ml"],
+    qEx81:"일주일에 며칠 고강도 운동을 하십니까? (숨이 많이 찰 정도)",
+    hEx81:"예: 달리기, 에어로빅, 빠른 자전거 타기, 힘든 육체 노동",
+    qEx82:"하루에 고강도 운동을 얼마나 하십니까?",
+    qEx91:"일주일에 며칠 중강도 운동을 하십니까? (숨이 약간 찰 정도)",
+    hEx91:"예: 빠른 걷기, 테니스, 보통 속도의 자전거 타기",
+    qEx92:"하루에 중강도 운동을 얼마나 하십니까?",
+    qEx10:"지난 한 주 동안 근력 운동을 며칠 하셨습니까?",
+    hEx10:"팔굽혀펴기, 아령, 철봉, 저항 운동 등",
+    lDaysW:"일/주", lH:"시간", lM:"분",
+    btnNext:"다음 →", btnBack:"← 이전", btnSubmit:"설문지 제출 ✓",
+    doneTitle:"설문지가 제출되었습니다!", doneMsg:"감사합니다! 답변이 접수되었습니다. 검진 후 결과를 알려드리겠습니다."
+  }
+};
+
+let lang = 'ru';
+let currentPage = 0;
+const TOTAL = 5;
+
+function setLang(l) {
+  lang = l;
+  renderAll();
+  goTo(1);
+}
+
+function goTo(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.getElementById('p' + p).classList.add('active');
+  currentPage = p;
+  const pct = p === 0 ? 0 : Math.round((p / TOTAL) * 100);
+  document.getElementById('prog').style.width = pct + '%';
+  const t = LANG[lang];
+  if (p > 0 && p <= TOTAL) {
+    document.getElementById('step-label-text').textContent = t.stepLabels[p];
+    document.getElementById('step-counter').textContent = p + ' / ' + TOTAL;
+  } else if (p === 0) {
+    document.getElementById('step-label-text').textContent = t.stepLabels[0];
+    document.getElementById('step-counter').textContent = '';
+  } else {
+    document.getElementById('step-label-text').textContent = '';
+    document.getElementById('step-counter').textContent = '';
+  }
+  window.scrollTo(0,0);
+}
+
+function set(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.innerHTML = val || ''; }
+}
+
+function setTxt(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = val || ''; }
+}
+
+function renderRadios(containerId, opts, name) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = opts.map((o,i) =>
+    `<label class="opt"><input type="radio" name="${name}" value="${i}"> ${o}</label>`
+  ).join('');
+}
+
+function renderToggleRadios(containerId, opts, name, subId) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = opts.map((o,i) =>
+    `<label class="opt" onclick="toggleSub('${subId}',${i > 0})"><input type="radio" name="${name}" value="${i}"> ${o}</label>`
+  ).join('');
+}
+
+function renderVapeRadios(opts) {
+  const c = document.getElementById('rg-vape');
+  if (!c) return;
+  c.innerHTML = opts.map((o,i) =>
+    `<label class="opt" onclick="toggleSub('sub-vape',${i === 1})"><input type="radio" name="vape" value="${i}"> ${o}</label>`
+  ).join('');
+}
+
+function toggleSub(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('show', show);
+}
+
+function renderDiseases() {
+  const t = LANG[lang];
+  const tbody = document.getElementById('disease-tbody');
+  tbody.innerHTML = t.diseases.map((d,i) => `
+    <tr>
+      <td>${d}</td>
+      <td><input type="radio" name="diag${i}" value="y"></td>
+      <td><input type="radio" name="diag${i}" value="n"></td>
+      <td><input type="radio" name="treat${i}" value="y"></td>
+      <td><input type="radio" name="treat${i}" value="n"></td>
+    </tr>`).join('');
+}
+
+function renderFamily() {
+  const t = LANG[lang];
+  const tbody = document.getElementById('family-tbody');
+  tbody.innerHTML = t.famDiseases.map((d,i) => `
+    <tr>
+      <td>${d}</td>
+      <td><input type="radio" name="fam${i}" value="y"></td>
+      <td><input type="radio" name="fam${i}" value="n"></td>
+    </tr>`).join('');
+}
+
+function renderAlcFreq() {
+  const t = LANG[lang];
+  const c = document.getElementById('alc-freq-list');
+  c.innerHTML = t.alcFreqItems.map((item, i) => {
+    if (item[1] === 'none') {
+      return `<label class="freq-row"><input type="radio" name="alcfreq" value="none"> ${item[0]}</label>`;
+    }
+    return `<label class="freq-row"><input type="radio" name="alcfreq" value="${item[1]}">
+      <input class="freq-input" type="number" min="0" placeholder="___" name="alcfreq_num_${item[1]}">
+      ${item[0]}</label>`;
+  }).join('');
+}
+
+function renderAlcTable(tableId, prefix) {
+  const t = LANG[lang];
+  const tbl = document.getElementById(tableId);
+  tbl.innerHTML = `<thead><tr><th></th>${t.alcUnits.map(u=>`<th>${u}</th>`).join('')}</tr></thead>` +
+    `<tbody>${t.alcDrinks.map((d,di)=>
+      `<tr><td>${d}</td>${t.alcUnits.map((_,ui)=>
+        `<td><input type="number" min="0" name="alc_${prefix}_${di}_${ui}" placeholder="—"></td>`
+      ).join('')}</tr>`
+    ).join('')}</tbody>`;
+}
+
+function renderAll() {
+  const t = LANG[lang];
+
+  // Header
+  setTxt('h-title', t.hTitle);
+  setTxt('h-desc', t.hDesc);
+  document.getElementById('step-label-text').textContent = t.stepLabels[currentPage] || '';
+
+  // Section titles
+  setTxt('s1-num', t.s1[0]); setTxt('s1-title', t.s1[1]);
+  setTxt('s2-num', t.s2[0]); setTxt('s2-title', t.s2[1]);
+  setTxt('s3-num', t.s3[0]); setTxt('s3-title', t.s3[1]);
+  setTxt('s4-num', t.s4[0]); setTxt('s4-title', t.s4[1]);
+  setTxt('s5-num', t.s5[0]); setTxt('s5-title', t.s5[1]);
+
+  // Page 1
+  setTxt('q-fio', t.qFio + ' *');
+  const fioEl = document.getElementById('i-fio');
+  if (fioEl) fioEl.placeholder = lang === 'ru' ? 'Фамилия Имя Отчество' : lang === 'uz' ? 'Familiya Ism Sharifingiz' : lang === 'ko' ? '성 이름' : 'First name Last name';
+  setTxt('q-phone', t.qPhone + ' *');
+  setTxt('l-mobile', t.lMobile); setTxt('l-home', t.lHome);
+
+
+  // Page 2
+  setTxt('q-diseases', t.qDiseases + ' *');
+  setTxt('dh-diag', t.dhDiag); setTxt('dh-treat', t.dhTreat);
+  setTxt('dh-yes1', t.dhYes); setTxt('dh-no1', t.dhNo);
+  setTxt('dh-yes2', t.dhYes); setTxt('dh-no2', t.dhNo);
+  renderDiseases();
+  setTxt('q-family', t.qFamily + ' *');
+  setTxt('fh-yes', t.dhYes); setTxt('fh-no', t.dhNo);
+  renderFamily();
+  setTxt('q-hepb', t.qHepb + ' *');
+  renderRadios('rg-hepb', t.hepbOpts, 'hepb');
+
+  // Page 3
+  // Gate questions
+  setTxt('q-smoke-ever', t.qSmokeEver + ' *');
+  renderGate('rg-smoke-ever', t.yesNo, 'smokeever', 'smoke-details');
+  setTxt('q-alc-ever', t.qAlcEver + ' *');
+  renderGate('rg-alc-ever', t.yesNo, 'alcever', 'alc-details');
+  setTxt('q-ex-ever', t.qExEver + ' *');
+  renderGate('rg-ex-ever', t.yesNo, 'exever', 'ex-details');
+  setTxt('q-cig', t.qCig + ' *');
+  renderToggleRadios('rg-cig', t.cigOpts, 'cig', 'sub-cig');
+  setTxt('q-cig-detail', t.qCigDetail);
+  renderRadios('rg-cig-status', t.cigStatus, 'cigstatus');
+  setTxt('l-cig-years', t.lCigYears); setTxt('l-cig-perday', t.lCigPerday); setTxt('l-cig-ago', t.lCigAgo);
+  setTxt('q-ecig', t.qEcig + ' *');
+  renderToggleRadios('rg-ecig', t.ecigOpts, 'ecig', 'sub-ecig');
+  setTxt('q-ecig-detail', t.qEcigDetail);
+  renderRadios('rg-ecig-status', t.ecigStatus, 'ecigstatus');
+  setTxt('l-ecig-years', t.lEcigYears); setTxt('l-ecig-perday', t.lEcigPerday); setTxt('l-ecig-ago', t.lEcigAgo);
+  setTxt('q-vape', t.qVape + ' *');
+  renderVapeRadios(t.vapeOpts);
+  setTxt('q-vape-freq-label', t.qVapeFreqLabel);
+  renderRadios('rg-vape-freq', t.vapeFreq, 'vapefreq');
+
+  // Page 4
+  setTxt('q-alc-freq', t.qAlcFreq + ' *');
+  renderAlcFreq();
+  setTxt('q-alc-usual', t.qAlcUsual + ' *'); setTxt('h-alc', t.hAlc);
+  setTxt('q-alc-max', t.qAlcMax + ' *'); setTxt('h-alc2', t.hAlc2);
+  renderAlcTable('alc-usual', 'usual');
+  renderAlcTable('alc-max', 'max');
+
+  // Page 5
+  setTxt('q-ex81', t.qEx81 + ' *'); setTxt('h-ex81', t.hEx81);
+  setTxt('q-ex82', t.qEx82 + ' *');
+  setTxt('q-ex91', t.qEx91 + ' *'); setTxt('h-ex91', t.hEx91);
+  setTxt('q-ex92', t.qEx92 + ' *');
+  setTxt('q-ex10', t.qEx10 + ' *'); setTxt('h-ex10', t.hEx10);
+  setTxt('l-days-w', t.lDaysW); setTxt('l-h1', t.lH); setTxt('l-m1', t.lM);
+  setTxt('l-days-w2', t.lDaysW); setTxt('l-h2', t.lH); setTxt('l-m2', t.lM);
+  setTxt('l-days-w3', t.lDaysW);
+
+  // Buttons
+  ['btn-next-1','btn-next-2','btn-next-3','btn-next-4'].forEach(id => setTxt(id, t.btnNext));
+  ['btn-back-2','btn-back-3','btn-back-4','btn-back-5'].forEach(id => setTxt(id, t.btnBack));
+  setTxt('btn-submit', t.btnSubmit);
+
+  // Done
+  setTxt('done-title', t.doneTitle); setTxt('done-msg', t.doneMsg);
+}
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS8z2qj0hdozfqCyFDtMqreWlnVpETY9hPcrDzoubb91Qk3wO00v8l4KyYshRlWgGPYg/exec';
+
+function renderGate(containerId, opts, name, targetId) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = opts.map((o,i) => {
+    const show = i === 0 ? 'block' : 'none';
+    return '<label class="opt" onclick="document.getElementById(\'' + targetId + '\').style.display=\'' + show + '\'"><input type="radio" name="' + name + '" value="' + i + '"> ' + o + '</label>';
+  }).join('');
+}
+
+function collectData() {
+  const t = LANG[lang];
+  const data = { язык: lang, дата: new Date().toLocaleString('ru-RU') };
+
+  const fields = [
+    ['i-fio', 'ФИО'],
+    ['i-mobile', 'Основной телефон'], ['i-home', 'Запасной телефон']
+  ];
+  fields.forEach(([id, label]) => {
+    const el = document.getElementById(id);
+    if (el) data[label] = el.value || '';
+  });
+
+  // Radio groups
+  const radios = [
+    ['report', t.qReport],
+    ['hepb', t.qHepb],
+    ['cig', t.qCig], ['cigstatus', t.qCigDetail],
+    ['ecig', t.qEcig], ['ecigstatus', t.qEcigDetail],
+    ['vape', t.qVape], ['vapefreq', t.qVapeFreqLabel],
+    ['alcfreq', t.qAlcFreq]
+  ];
+  radios.forEach(([name, label]) => {
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    if (checked) {
+      const labelEl = checked.closest('label');
+      data[label] = labelEl ? labelEl.textContent.trim() : checked.value;
+    }
+  });
+
+  // Число — курение
+  [['i-cig-years', t.lCigYears], ['i-cig-perday', t.lCigPerday], ['i-cig-ago', t.lCigAgo],
+   ['i-ecig-years', t.lEcigYears], ['i-ecig-perday', t.lEcigPerday], ['i-ecig-ago', t.lEcigAgo]
+  ].forEach(([id, label]) => {
+    const el = document.getElementById(id);
+    if (el && el.value) data[label] = el.value;
+  });
+
+  // Алкоголь таблицы
+  ['usual','max'].forEach(prefix => {
+    const label = prefix === 'usual' ? t.qAlcUsual : t.qAlcMax;
+    t.alcDrinks.forEach((drink, di) => {
+      t.alcUnits.forEach((unit, ui) => {
+        const el = document.querySelector(`input[name="alc_${prefix}_${di}_${ui}"]`);
+        if (el && el.value) data[`${label} — ${drink} (${unit})`] = el.value;
+      });
+    });
+  });
+
+  // Болезни
+  t.diseases.forEach((d, i) => {
+    const diag = document.querySelector(`input[name="diag${i}"]:checked`);
+    const treat = document.querySelector(`input[name="treat${i}"]:checked`);
+    if (diag) data[`${t.dhDiag}: ${d}`] = diag.value === 'y' ? t.dhYes : t.dhNo;
+    if (treat) data[`${t.dhTreat}: ${d}`] = treat.value === 'y' ? t.dhYes : t.dhNo;
+  });
+  t.famDiseases.forEach((d, i) => {
+    const r = document.querySelector(`input[name="fam${i}"]:checked`);
+    if (r) data[`Семья: ${d}`] = r.value === 'y' ? t.dhYes : t.dhNo;
+  });
+
+  // Физнагрузки
+  [['i-ex81', t.qEx81], ['i-ex82h', t.lH + ' (высокие)'], ['i-ex82m', t.lM + ' (высокие)'],
+   ['i-ex91', t.qEx91], ['i-ex92h', t.lH + ' (умеренные)'], ['i-ex92m', t.lM + ' (умеренные)'],
+   ['i-ex10', t.qEx10]
+  ].forEach(([id, label]) => {
+    const el = document.getElementById(id);
+    if (el && el.value) data[label] = el.value;
+  });
+
+  return data;
+}
+
+function submitForm() {
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = '⏳ Отправка...';
+
+  const data = collectData();
+
+  const params = new URLSearchParams();
+  Object.entries(data).forEach(([k,v]) => params.append(k, v));
+  const img = new Image();
+  img.src = SCRIPT_URL + "?" + params.toString();
+  img.onload = img.onerror = function() {};
+  setTimeout(function() { goTo(6); }, 1500);
+}
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
